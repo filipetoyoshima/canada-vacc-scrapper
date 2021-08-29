@@ -9,7 +9,7 @@ I recommend pip with [virtualenvs](https://docs.python.org/pt-br/3/library/venv.
 ```bash
 python -m venv env
 source env/bin/activate
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Use
