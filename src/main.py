@@ -7,10 +7,18 @@ import re
 import sys
 
 
-def is_approved(vaccine:str, approved_list:list):
-    vaccine = vaccine.upper()
-    for approved in approved_list:
-        if re.search(f'{vaccine}', approved.upper()):
+def is_in(search:str, vacc_list:list):
+    search = search.upper()
+    for vacc in vacc_list:
+        if re.search(f'{search}', vacc.upper()):
+            return True
+    return False
+
+
+def is_searched(searches:list, vacc:str):
+    for search in searches:
+        search = search.upper()
+        if re.search(f'{search}', vacc.upper()):
             return True
     return False
 
@@ -22,10 +30,14 @@ if __name__ == '__main__':
     (approved_vaccines, disapproved_vaccines) = scrapper.get_vaccine_info(canada_page)
     pprint(approved_vaccines)
     pprint(disapproved_vaccines)
-    search_results = [
-        (searched_vacc, True) if is_approved(searched_vacc, approved_vaccines) else (searched_vacc, False) for searched_vacc in sys.argv[1:]
-    ]
-    gui = Gui(approved_vaccines, disapproved_vaccines, search_results)
+    search_vaccs = sys.argv[1:]        
+
+    approved_vaccines_hilights = [(vacc, True) if is_searched(search_vaccs, vacc) else (vacc, False) for vacc in approved_vaccines]
+    disapproved_vaccines_hilights = [(vacc, True) if is_searched(search_vaccs, vacc) else (vacc, False) for vacc in disapproved_vaccines]
+
+    if len([vacc for vacc in search_vaccs if not is_in(vacc, approved_vaccines + disapproved_vaccines)]) > 0:
+        disapproved_vaccines_hilights[-1] = (disapproved_vaccines_hilights[-1][0], True)
+    gui = Gui(approved_vaccines_hilights, disapproved_vaccines_hilights)
     gui.mainloop()
     
 
