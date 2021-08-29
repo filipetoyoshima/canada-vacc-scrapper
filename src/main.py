@@ -40,4 +40,3 @@ if __name__ == '__main__':
     gui = Gui(approved_vaccines_hilights, disapproved_vaccines_hilights)
     gui.mainloop()
     
-

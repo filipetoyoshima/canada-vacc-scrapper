@@ -20,5 +20,6 @@ class Scrapper:
         ]
         vaccine_lists = [[re.sub('\r|\n', '', vac) for vac in vac_list] for vac_list in vaccine_lists]
         vaccine_lists = [[re.sub('\s\s+', ' ', vac) for vac in vac_list] for vac_list in vaccine_lists]
+        vaccine_lists = [[re.sub('&amp;', '&', vac) for vac in vac_list] for vac_list in vaccine_lists]
         [approved_vaccs, disapproved_vaccs] = vaccine_lists
         return (approved_vaccs, disapproved_vaccs)
